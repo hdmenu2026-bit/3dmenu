@@ -92,7 +92,6 @@ model-viewer {
 
   margin: auto;
   width: 100%;
-  max-width: 520px;
 
   z-index: 2;
   opacity: 1;
@@ -146,4 +145,5 @@ model-viewer.fade-out {
   font-size: 14px;
   z-index: 3;
 }
+
 

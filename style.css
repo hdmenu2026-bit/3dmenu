@@ -88,7 +88,7 @@ model-viewer {
   left: 0;
   right: 0;
   top: 70px;
-  bottom: 150px;
+  bottom: 70px;
 
   margin: auto;
   width: 100%;
@@ -146,3 +146,4 @@ model-viewer.fade-out {
   font-size: 14px;
   z-index: 3;
 }
+

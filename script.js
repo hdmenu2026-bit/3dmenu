@@ -2,12 +2,31 @@ const startScreen = document.getElementById("start");
 const video = document.getElementById("camera");
 const viewer = document.getElementById("viewer");
 const loader = document.getElementById("loader");
+const foodName = document.getElementById("foodName");
+const foodPrice = document.getElementById("foodPrice");
 
+/* ---------- MODELS (light metadata only) ---------- */
 const models = [
-  "https://pub-2df5d5369349481bbb31738813eaa799.r2.dev/Cookie.glb",
-  "https://pub-2df5d5369349481bbb31738813eaa799.r2.dev/Chicken_Strips.glb",
-  "https://pub-2df5d5369349481bbb31738813eaa799.r2.dev/CupCake.glb",
-  "https://pub-2df5d5369349481bbb31738813eaa799.r2.dev/sushi.glb"
+  {
+    src: "https://pub-2df5d5369349481bbb31738813eaa799.r2.dev/Cookie_ltr.glb",
+    name: "Chocolate Cookie",
+    price: "Rs 449"
+  },
+  {
+    src: "https://pub-2df5d5369349481bbb31738813eaa799.r2.dev/Chicken_Strips_ltr.glb",
+    name: "Chicken Strips",
+    price: "Rs 1,199"
+  },
+  {
+    src: "https://pub-2df5d5369349481bbb31738813eaa799.r2.dev/CupCake_ltr.glb",
+    name: "Vanilla Cupcake",
+    price: "Rs 749"
+  },
+  {
+    src: "https://pub-2df5d5369349481bbb31738813eaa799.r2.dev/sushi_ltr.glb",
+    name: "Sushi Platter",
+    price: "Rs 2,299"
+  }
 ];
 
 let index = 0;
@@ -86,4 +105,5 @@ startScreen.onclick = async () => {
 document.getElementById("arBtn").onclick = () => {
   viewer.activateAR();
 };
+
 

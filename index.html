@@ -31,6 +31,12 @@
     <p>Loading food…</p>
   </div>
 
+  <!-- TOP TITLE -->
+<div class="top-header">
+  <h1 class="menu-title">3D Menu</h1>
+  <p class="menu-tagline">Try Something New</p>
+</div>
+
   <!-- MODEL VIEWER -->
   <model-viewer
     id="viewer"
@@ -52,7 +58,14 @@
   <!-- CONTROLS -->
   <div class="controls">
     <button id="prev">◀</button>
-    <span class="title">3D Menu</span>
+
+    
+     <div class="info">
+    <div class="food-name" id="foodName"></div>
+    <div class="food-price" id="foodPrice"></div>
+  </div>
+
+    
     <button id="next">▶</button>
   </div>
 
@@ -62,3 +75,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+

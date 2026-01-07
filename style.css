@@ -119,13 +119,13 @@ model-viewer.fade-out {
   padding: 16px 18px;
   border-radius: 50%;
 }
-
+/*
 .title {
   color: white;
   font-size: 18px;
   letter-spacing: 2px;
   text-transform: uppercase;
-}
+}*/
 
 /* AR BUTTON */
 .ar-btn {
@@ -141,6 +141,53 @@ model-viewer.fade-out {
   font-size: 14px;
   z-index: 3;
 }
+
+/* FOOD INFO */
+.info {
+  text-align: center;
+  pointer-events: none;
+}
+
+.food-name {
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.food-price {
+  margin-top: 2px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.75);
+}
+
+.top-header {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 3;
+  pointer-events: none;
+
+  padding-top: calc(24px + env(safe-area-inset-top));
+}
+
+.menu-title {
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.menu-tagline {
+  margin-top: 4px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
 
 
 

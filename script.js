@@ -38,7 +38,8 @@ function preloadModel(url) {
   if (!url || preloadCache.has(url)) return;
 
   const link = document.createElement("link");
-  link.rel = "preload";
+  //link.rel = "preload";
+  link.rel = "prefetch";
   link.as = "fetch";
   link.href = url;
   link.crossOrigin = "anonymous";
@@ -109,4 +110,5 @@ startScreen.onclick = async () => {
 document.getElementById("arBtn").onclick = () => {
   viewer.activateAR();
 };
+
 

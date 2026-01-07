@@ -4,8 +4,8 @@ const viewer = document.getElementById("viewer");
 const loader = document.getElementById("loader");
 
 const models = [
-  "https://pub-2df5d5369349481bbb31738813eaa799.r2.dev/Chicken_Strips.glb",
   "https://pub-2df5d5369349481bbb31738813eaa799.r2.dev/Cookie.glb",
+  "https://pub-2df5d5369349481bbb31738813eaa799.r2.dev/Chicken_Strips.glb",
   "https://pub-2df5d5369349481bbb31738813eaa799.r2.dev/CupCake.glb",
   "https://pub-2df5d5369349481bbb31738813eaa799.r2.dev/sushi.glb"
 ];
@@ -86,3 +86,4 @@ startScreen.onclick = async () => {
 document.getElementById("arBtn").onclick = () => {
   viewer.activateAR();
 };
+

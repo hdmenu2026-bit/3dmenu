@@ -1,12 +1,16 @@
-export async function onRequest({ request, env }) {
+export async function onRequest({ request, env, next }) {
   const url = new URL(request.url);
 
-  // Only proxy model files
+  // ONLY handle /cdn/*
   if (!url.pathname.startsWith("/cdn/")) {
-    return fetch(request);
+    return next();
   }
 
-  const key = url.pathname.replace("/cdn/", "");
+  const key = url.pathname.slice(5); // remove "/cdn/"
+
+  if (!key) {
+    return new Response("Bad request", { status: 400 });
+  }
 
   const object = await env.MODELS.get(key);
 
@@ -17,7 +21,8 @@ export async function onRequest({ request, env }) {
   return new Response(object.body, {
     headers: {
       "Content-Type": "model/gltf-binary",
-      "Cache-Control": "public, max-age=31536000, immutable"
+      "Cache-Control": "public, max-age=31536000, immutable",
+      "Cross-Origin-Resource-Policy": "cross-origin"
     }
   });
 }

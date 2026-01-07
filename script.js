@@ -5,7 +5,7 @@ const loader = document.getElementById("loader");
 const foodName = document.getElementById("foodName");
 const foodPrice = document.getElementById("foodPrice");
 
-/* ---------- MODELS (light metadata only) ---------- */
+/* ---------- MODELS ---------- */
 const models = [
   {
     src: "https://pub-2df5d5369349481bbb31738813eaa799.r2.dev/Cookie_ltr.glb",
@@ -35,7 +35,7 @@ let index = 0;
 const preloadCache = new Set();
 
 function preloadModel(url) {
-  if (preloadCache.has(url)) return;
+  if (!url || preloadCache.has(url)) return;
 
   const link = document.createElement("link");
   link.rel = "preload";
@@ -49,21 +49,25 @@ function preloadModel(url) {
 
 function preloadNextModels(i) {
   for (let x = 1; x <= 2; x++) {
-    preloadModel(models[(i + x) % models.length]);
+    preloadModel(models[(i + x) % models.length].src); // ✅ FIX
   }
 }
 
-// preload only first 2 on start screen
-preloadModel(models[0]);
-preloadModel(models[1]);
+// preload first two
+preloadModel(models[0].src); // ✅ FIX
+preloadModel(models[1].src); // ✅ FIX
 
 /* ---------- MODEL SWITCH ---------- */
 function showModel(i) {
   loader.style.display = "flex";
   viewer.classList.add("fade-out");
 
+  // text updates are instant and free
+  foodName.textContent = models[i].name;
+  foodPrice.textContent = models[i].price;
+
   setTimeout(() => {
-    viewer.src = models[i];
+    viewer.src = models[i].src; // ✅ FIX
     preloadNextModels(i);
   }, 300);
 }
@@ -105,5 +109,3 @@ startScreen.onclick = async () => {
 document.getElementById("arBtn").onclick = () => {
   viewer.activateAR();
 };
-
-

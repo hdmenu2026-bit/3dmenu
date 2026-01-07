@@ -8,6 +8,11 @@ const foodPrice = document.getElementById("foodPrice");
 /* ---------- MODELS ---------- */
 const models = [
   {
+    src: "https://pub-2df5d5369349481bbb31738813eaa799.r2.dev/CupCake_ltr.glb",
+    name: "Vanilla Cupcake",
+    price: "Rs 749"
+  },
+  {
     src: "https://pub-2df5d5369349481bbb31738813eaa799.r2.dev/Cookie_ltr.glb",
     name: "Chocolate Cookie",
     price: "Rs 449"
@@ -18,11 +23,6 @@ const models = [
     price: "Rs 1,199"
   },
   {
-    src: "https://pub-2df5d5369349481bbb31738813eaa799.r2.dev/CupCake_ltr.glb",
-    name: "Vanilla Cupcake",
-    price: "Rs 749"
-  },
-  {
     src: "https://pub-2df5d5369349481bbb31738813eaa799.r2.dev/sushi_ltr.glb",
     name: "Sushi Platter",
     price: "Rs 2,299"
@@ -31,37 +31,50 @@ const models = [
 
 let index = 0;
 
-/* ---------- PRELOAD (SAFE) ---------- */
+/* ---------- PRELOAD ---------- */
 const preloadCache = new Set();
 
 function preloadModel(url) {
-  if (preloadCache.has(url)) return;
+  if (!url || preloadCache.has(url)) return;
 
-  fetch(url, { mode: "cors", priority: "low" }).catch(() => {});
+  const link = document.createElement("link");
+  link.rel = "preload";
+  link.as = "fetch";
+  link.href = url;
+  link.crossOrigin = "anonymous";
+  document.head.appendChild(link);
+
   preloadCache.add(url);
 }
 
 function preloadNextModels(i) {
-  preloadModel(models[(i + 1) % models.length].src);
+  for (let x = 1; x <= 2; x++) {
+    preloadModel(models[(i + x) % models.length].src); // ✅ FIX
+  }
 }
+
+// preload first two
+preloadModel(models[0].src); // ✅ FIX
+preloadModel(models[1].src); // ✅ FIX
 
 /* ---------- MODEL SWITCH ---------- */
 function showModel(i) {
   loader.style.display = "flex";
   viewer.classList.add("fade-out");
 
+  // text updates are instant and free
   foodName.textContent = models[i].name;
   foodPrice.textContent = models[i].price;
 
-  viewer.src = models[i].src;
+  setTimeout(() => {
+    viewer.src = models[i].src; // ✅ FIX
+    preloadNextModels(i);
+  }, 300);
 }
 
 viewer.addEventListener("load", () => {
   loader.style.display = "none";
-  viewer.classList.remove("fade-out");
-
-  // preload next AFTER first model loads
-  preloadNextModels(index);
+  requestAnimationFrame(() => viewer.classList.remove("fade-out"));
 });
 
 /* ---------- NAVIGATION ---------- */
@@ -76,24 +89,20 @@ document.getElementById("prev").onclick = () => {
 };
 
 /* ---------- START ---------- */
-startScreen.onclick = () => {
+startScreen.onclick = async () => {
   startScreen.style.display = "none";
 
-  // load model FIRST
-  showModel(index);
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { ideal: "environment" } },
+      audio: false
+    });
+    video.srcObject = stream;
+  } catch {
+    alert("Camera access is required");
+  }
 
-  // start camera AFTER model begins loading
-  setTimeout(async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: { ideal: "environment" } },
-        audio: false
-      });
-      video.srcObject = stream;
-    } catch {
-      alert("Camera access is required");
-    }
-  }, 700);
+  showModel(index);
 };
 
 /* ---------- AR ---------- */

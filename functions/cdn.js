@@ -1,11 +1,20 @@
-export async function onRequest({ request, env }) {
+export async function onRequest(context) {
+  const { request, env } = context;
   const url = new URL(request.url);
 
-  // Only handle /cdn/*
-  const key = url.pathname.replace("/cdn/", "");
-
-  if (!key || key === url.pathname) {
+  // Expected: /cdn/filename.glb
+  if (!url.pathname.startsWith("/cdn/")) {
     return new Response("Not found", { status: 404 });
+  }
+
+  const key = url.pathname.substring(5); // remove "/cdn/"
+
+  if (!key || key.includes("..")) {
+    return new Response("Bad request", { status: 400 });
+  }
+
+  if (!env.MODELS) {
+    return new Response("R2 binding missing", { status: 500 });
   }
 
   const object = await env.MODELS.get(key);
